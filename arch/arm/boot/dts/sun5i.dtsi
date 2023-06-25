@@ -559,6 +559,11 @@
 				function = "spi2";
 			};
 
+			uart0_pf_pins: uart0-pf-pins {
+				pins = "PF2", "PF4";
+				function = "uart0";
+			};
+
 			uart1_pe_pins: uart1-pe-pins {
 				pins = "PE10", "PE11";
 				function = "uart1";

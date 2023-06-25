@@ -1,0 +1,80 @@
+/dts-v1/;
+#include "sun5i-a13.dtsi"
+#include "sun5i-reference-design-tablet.dtsi"
+
+/ {
+	model = "XW711 A13 Tablet";
+	compatible = "allwinner,xw711-a13", "allwinner,sun5i-a13";
+
+	panel: panel {
+		compatible = "bananapi,s070wv20-ct16";
+		power-supply = <&reg_vcc3v3>;
+		enable-gpios = <&axp_gpio 0 GPIO_ACTIVE_HIGH>; /* AXP GPIO0 */
+		backlight = <&backlight>;
+
+		port {
+			panel_input: endpoint {
+				remote-endpoint = <&tcon0_out_lcd>;
+			};
+		};
+	};
+
+	chosen {
+		stdout-path = &uart0;
+	};
+};
+
+&be0 {
+	status = "okay";
+};
+
+&tcon0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&lcd_rgb666_pins>;
+	status = "okay";
+};
+
+&tcon0_out {
+	tcon0_out_lcd: endpoint@0 {
+		reg = <0>;
+		remote-endpoint = <&panel_input>;
+	};
+};
+
+&uart1 {
+	status = "disabled";
+};
+
+&mmc0 {
+	status = "disabled";
+};
+
+&mmc2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc2_8bit_pins>;
+	vmmc-supply = <&reg_vcc3v0>;
+	bus-width = <8>;
+	status = "okay";
+};
+
+&uart0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_pf_pins>;
+	status = "okay";
+};
+
+&reg_dcdc2 {
+	regulator-ramp-delay = <800>;
+	regulator-min-microvolt = <1400000>;
+	regulator-max-microvolt = <1400000>;
+};
+
+&reg_dcdc3 {
+	regulator-max-microvolt = <1200000>;
+};
+
+&reg_ldo3 {
+	regulator-ramp-delay = <800>;
+	regulator-always-on;
+};
+
